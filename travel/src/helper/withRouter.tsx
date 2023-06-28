@@ -1,6 +1,6 @@
 import { useNavigate, NavigateFunction } from "react-router-dom";
 
-export interface RouterComponentProps {
+export interface RouteComponentProps {
     navigate: NavigateFunction;
 }
 

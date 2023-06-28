@@ -6,9 +6,9 @@ import sideImage from '../../assets/images/sider_2019_12-09.png';
 import sideImage2 from '../../assets/images/sider_2019_02-04.png';
 import sideImage3 from '../../assets/images/sider_2019_02-04-2.png';
 import { productList1, productList2, productList3 } from '../../mockup';
-import { withRouter, RouterComponentProps } from "../../helper/withRouter";
+import { withRouter, RouteComponentProps } from "../../helper/withRouter";
 
-class HomePageComponent extends React.Component<RouterComponentProps> {
+class HomePageComponent extends React.Component<RouteComponentProps> {
     render() {
         console.log(this.props.navigate);
         return (
