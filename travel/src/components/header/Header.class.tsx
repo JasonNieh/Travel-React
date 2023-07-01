@@ -17,8 +17,31 @@ class HeaderComponent extends React.Component<RouteComponentProps, State>{
             language: storeState.language,
             languageList: storeState.languageList,
         };
+        store.subscribe(this.handleStoreChange);
     }
-
+    handleStoreChange = () => {
+        const storeState = store.getState();
+        this.setState({
+            language: storeState.language,
+            languageList: storeState.languageList,
+        });
+    };
+    menuHandleClick = (e) => {
+        if (e.key === "new") {
+            const action = {
+                type: "add_language",
+                payload: { code: "new_lang", name: "New Language" }
+            }
+            store.dispatch(action);
+        }
+        else {
+            const action = {
+                type: "change_language",
+                payload: e.key
+            }
+            store.dispatch(action);
+        }
+    }
     render() {
         return (
             <div className={styles['app-header']}>
@@ -28,10 +51,10 @@ class HeaderComponent extends React.Component<RouteComponentProps, State>{
                         <Dropdown.Button
                             style={{ marginLeft: 15 }}
                             overlay={
-                                <Menu
-                                    items={this.state.languageList.map(l => {
+                                <Menu onClick={this.menuHandleClick}
+                                    items={[...this.state.languageList.map(l => {
                                         return { key: l.code, label: l.name };
-                                    })}
+                                    }), { key: "new", label: "添加新语言" }]}
                                 />
                             }
                             icon={<GlobalOutlined />}
