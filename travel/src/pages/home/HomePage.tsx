@@ -7,10 +7,12 @@ import sideImage2 from '../../assets/images/sider_2019_02-04.png';
 import sideImage3 from '../../assets/images/sider_2019_02-04-2.png';
 import { productList1, productList2, productList3 } from '../../mockup';
 import { withRouter, RouteComponentProps } from "../../helper/withRouter";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-class HomePageComponent extends React.Component<RouteComponentProps> {
+class HomePageComponent extends React.Component<RouteComponentProps & WithTranslation> {
     render() {
-        console.log(this.props.navigate);
+        const { t } = this.props;
+        // console.log(this.props.navigate);
         return (
             <>
                 <Header />
@@ -26,7 +28,7 @@ class HomePageComponent extends React.Component<RouteComponentProps> {
                     <ProductCollection
                         title={
                             <Typography.Title level={3} type="warning">
-                                爆款推荐
+                                {t("home_page.hot_recommended")}
                             </Typography.Title>
                         }
                         sideImage={sideImage}
@@ -35,7 +37,7 @@ class HomePageComponent extends React.Component<RouteComponentProps> {
                     <ProductCollection
                         title={
                             <Typography.Title level={3} type="danger">
-                                新品上市
+                                {t("home_page.new_arrival")}
                             </Typography.Title>
                         }
                         sideImage={sideImage2}
@@ -44,7 +46,7 @@ class HomePageComponent extends React.Component<RouteComponentProps> {
                     <ProductCollection
                         title={
                             <Typography.Title level={3} type="success">
-                                国内游推荐
+                                {t("home_page.domestic_travel")}
                             </Typography.Title>
                         }
                         sideImage={sideImage3}
@@ -57,4 +59,4 @@ class HomePageComponent extends React.Component<RouteComponentProps> {
         );
     }
 }
-export const HomePage = withRouter(HomePageComponent);
+export const HomePage = withTranslation()(withRouter(HomePageComponent));

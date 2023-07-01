@@ -5,6 +5,7 @@
         "title": "React 旅游网",
         "register":"注册",
         "signin":"登陆",
+        "search_place_holder": "请输入旅游目的地、主题或关键字",
         "home_page": "旅游首页",
         "weekend": "周末游",
         "group": "跟团游",

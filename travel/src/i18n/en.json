@@ -5,6 +5,7 @@
         "title": "React Travel",
         "register":"Register",
         "signin":"Sign In",
+        "search_place_holder": "please type your destination, theme or keywords",
         "home_page": "Home",
         "weekend": "Weekend",
         "group": "Group",
