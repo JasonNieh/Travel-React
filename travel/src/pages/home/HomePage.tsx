@@ -11,6 +11,14 @@ import { withRouter, RouteComponentProps } from "../../helper/withRouter";
 import { WithTranslation, withTranslation } from "react-i18next";
 import axios from "axios";
 import { Spin } from "antd";
+import { connect } from "react-redux";
+import { RootState } from "../../redux/store";
+import { Dispatch } from "redux";
+import {
+    fetchRecommendProductStartActionCreator,
+    fetchRecommendProductSuccessActionCreator,
+    fetchRecommendProductFailActionCreator
+} from "../../redux/recommendProducts/RecommendProductActions";
 
 axios.defaults.headers['x-icode'] = "63BAC72C6C13D16B";
 interface StateProps {
@@ -19,41 +27,49 @@ interface StateProps {
     productList: any[];
 }
 
-class HomePageComponent extends React.Component<RouteComponentProps & WithTranslation, StateProps> {
-    constructor(props) {
-        super(props);
-        this.state = {
-            loading: true,
-            error: null,
-            productList: [],
-        }
+const mapStateToProps = (state: RootState) => {
+    return {
+        loading: state.recommendProducts.loading,
+        error: state.recommendProducts.error,
+        productList: state.recommendProducts.productList,
+    };
+}
+const mapDispatchToProps = (dispatch: Dispatch) => {
+    return {
+        fetchStart: () => {
+            dispatch(fetchRecommendProductStartActionCreator());
+        },
+        fetchSuccess: (data) => {
+            dispatch(fetchRecommendProductSuccessActionCreator(data));
+        },
+        fetchFail: (error) => {
+            dispatch(fetchRecommendProductFailActionCreator(error));
+        },
     }
+}
+type PropsType = RouteComponentProps & WithTranslation & ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
+
+class HomePageComponent extends React.Component<PropsType> {
+
     async componentDidMount() {
+        this.props.fetchStart();
         try {
             const { data } = await axios.get("http://123.56.149.216:8080/api/productCollections", {
                 headers: {
                     'x-icode': "63BAC72C6C13D16B",
                 }
             });
-            this.setState({
-                productList: data,
-                loading: false,
-                error: null,
-            })
+            this.props.fetchSuccess(data);
         } catch (e) {
             if (e instanceof Error) {
-                this.setState({
-                    loading: false,
-                    error: e.message,
-                });
+                this.props.fetchFail(e.message);
             }
         }
 
     }
     render() {
-        const { t } = this.props;
+        const { t, loading, error, productList } = this.props;
         // console.log(this.props.navigate);
-        const { loading, error, productList } = this.state;
         if (loading) {
             return (
                 <Spin
@@ -119,4 +135,4 @@ class HomePageComponent extends React.Component<RouteComponentProps & WithTransl
         );
     }
 }
-export const HomePage = withTranslation()(withRouter(HomePageComponent));
+export const HomePage = connect(mapStateToProps, mapDispatchToProps)(withTranslation()(withRouter(HomePageComponent)));
