@@ -17,15 +17,11 @@ import { Dispatch } from "redux";
 import {
     fetchRecommendProductStartActionCreator,
     fetchRecommendProductSuccessActionCreator,
-    fetchRecommendProductFailActionCreator
+    fetchRecommendProductFailActionCreator,
+    giveMeDataActionCreator
 } from "../../redux/recommendProducts/RecommendProductActions";
 
 axios.defaults.headers['x-icode'] = "63BAC72C6C13D16B";
-interface StateProps {
-    loading: boolean;
-    error: string | null;
-    productList: any[];
-}
 
 const mapStateToProps = (state: RootState) => {
     return {
@@ -34,38 +30,20 @@ const mapStateToProps = (state: RootState) => {
         productList: state.recommendProducts.productList,
     };
 }
-const mapDispatchToProps = (dispatch: Dispatch) => {
+const mapDispatchToProps = (dispatch) => {
     return {
-        fetchStart: () => {
-            dispatch(fetchRecommendProductStartActionCreator());
-        },
-        fetchSuccess: (data) => {
-            dispatch(fetchRecommendProductSuccessActionCreator(data));
-        },
-        fetchFail: (error) => {
-            dispatch(fetchRecommendProductFailActionCreator(error));
-        },
+        giveMedata: () => {
+            dispatch(giveMeDataActionCreator());
+            //Here if parameter dispatch is defined by Dispatch from redux then it would be wrong.
+        }
     }
 }
 type PropsType = RouteComponentProps & WithTranslation & ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
 class HomePageComponent extends React.Component<PropsType> {
 
-    async componentDidMount() {
-        this.props.fetchStart();
-        try {
-            const { data } = await axios.get("http://123.56.149.216:8080/api/productCollections", {
-                headers: {
-                    'x-icode': "63BAC72C6C13D16B",
-                }
-            });
-            this.props.fetchSuccess(data);
-        } catch (e) {
-            if (e instanceof Error) {
-                this.props.fetchFail(e.message);
-            }
-        }
-
+    componentDidMount() {
+        this.props.giveMedata();
     }
     render() {
         const { t, loading, error, productList } = this.props;

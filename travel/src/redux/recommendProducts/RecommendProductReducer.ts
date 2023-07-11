@@ -3,7 +3,7 @@ import {
     FETCH_RECOMMEND_PRODUCT_START,
     FETCH_RECOMMEND_PRODUCT_SUCCESS,
     FETCH_RECOMMEND_PRODUCT_FAIL,
-    RecommendProductTypes,
+    RecommendProductActions,
     fetchRecommendProductFailActionCreator,
     fetchRecommendProductStartActionCreator,
     fetchRecommendProductSuccessActionCreator
@@ -21,7 +21,7 @@ const defaultState: RecommendProductState = {
     productList: [],
 }
 
-export const RecommendProductReducer = (state = defaultState, action: RecommendProductTypes) => {
+export const RecommendProductReducer = (state = defaultState, action: RecommendProductActions) => {
     switch (action.type) {
         case FETCH_RECOMMEND_PRODUCT_START:
             return { ...state, loading: true };
