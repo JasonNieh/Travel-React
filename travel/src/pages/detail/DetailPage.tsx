@@ -2,12 +2,15 @@ import { Match } from "@testing-library/react";
 import React from "react";
 import { useParams } from "react-router";
 import { useState, useEffect } from "react";
+import { useSelector } from "../../redux/hooks";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 import styles from "./DetailPage.module.css";
 import { Typography, Col, Row, Spin, DatePicker, Space, Divider, Anchor, Menu } from "antd";
 import { Footer, Header, ProductComments } from "../../components";
 import { ProductIntro } from "../../components/productIntro";
 import { commentMockData } from "./mockup";
+import { productDetailSlice } from "../../redux/productDetail/slice";
 const { RangePicker } = DatePicker;
 type MatchParams = {
     touristRouteId: string,
@@ -15,19 +18,24 @@ type MatchParams = {
 
 export const DetailPage: React.FC = () => {
     const { touristRouteId } = useParams<MatchParams>();
-    const [error, setError] = useState<null | string>(null);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [product, setProduct] = useState<any>(null);
+    // const [error, setError] = useState<null | string>(null);
+    // const [loading, setLoading] = useState<boolean>(true);
+    // const [product, setProduct] = useState<any>(null);
+    const loading = useSelector(state => state.productDetail.loading);
+    const error = useSelector(state => state.productDetail.error);
+    const product = useSelector(state => state.productDetail.product);
+    const dispatch = useDispatch();
+
     useEffect(() => {
         const fetchData = async () => {
-            setLoading(true);
+            dispatch(productDetailSlice.actions.fetchStart());
             try {
                 const { data } = await axios.get(`http://123.56.149.216:8080/api/touristRoutes/${touristRouteId}`);
-                setLoading(false);
-                setProduct(data);
+                dispatch(productDetailSlice.actions.fetchSuccess(data));
             } catch (error) {
-                setError(error instanceof Error ? error.message : "error");
-                setLoading(false);
+                dispatch(productDetailSlice.actions.fetchFail(
+                    error instanceof Error ? error.message : "error"
+                ));
             }
         }
         fetchData();
