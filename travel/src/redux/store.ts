@@ -5,11 +5,13 @@ import { RecommendProductReducer } from "./recommendProducts/RecommendProductRed
 import thunk from "redux-thunk";
 import { actionLog } from "./middlewares/actionLog";
 import { productDetailSlice } from "./productDetail/slice";
+import { productSearchSlice } from "./productSearch/slice";
 
 const rootReducer = combineReducers({
     language: LanguageReducer,
     recommendProducts: RecommendProductReducer,
     productDetail: productDetailSlice.reducer,
+    productSearch: productSearchSlice.reducer,
 })
 
 // const store = createStore(RootReducer, applyMiddleware(thunk, actionLog));

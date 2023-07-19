@@ -54,9 +54,13 @@ export const Header: React.FC = () => {
             </div>
 
             <Layout.Header className={styles['main-header']}>
-                <img src={logo} alt="" className={styles["App-logo"]} />
-                <Typography.Title level={3} className={styles.title}>React Travel</Typography.Title>
-                <Input.Search placeholder={t("header.search_place_holder")} className={styles['search-input']} />
+                <span onClick={() => navigate("/")}>
+                    <img src={logo} alt="" className={styles["App-logo"]} />
+                    <Typography.Title level={3} className={styles.title}>React Travel</Typography.Title>
+                </span>
+                <Input.Search placeholder={t("header.search_place_holder")}
+                    className={styles['search-input']}
+                    onSearch={(keyword) => navigate("/search/" + keyword)} />
             </Layout.Header>
             <Menu
                 mode={"horizontal"}
