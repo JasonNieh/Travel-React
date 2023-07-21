@@ -20,6 +20,7 @@ import {
     fetchRecommendProductFailActionCreator,
     giveMeDataActionCreator
 } from "../../redux/recommendProducts/RecommendProductActions";
+import { MainLayout } from "../../layouts";
 
 axios.defaults.headers['x-icode'] = "63BAC72C6C13D16B";
 
@@ -69,8 +70,7 @@ class HomePageComponent extends React.Component<PropsType> {
         }
         return (
             <>
-                <Header />
-                <div className={styles["page-content"]}>
+                <MainLayout>
                     <Row style={{ marginTop: 20 }}>
                         <Col span={6}>
                             <SideMenu />
@@ -107,8 +107,7 @@ class HomePageComponent extends React.Component<PropsType> {
                         products={productList[2].touristRoutes}
                     />
                     <BusinessPartners />
-                </div>
-                <Footer />
+                </MainLayout>
             </>
         );
     }
