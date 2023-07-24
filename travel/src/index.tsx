@@ -5,7 +5,8 @@ import App from './App';
 import "antd/dist/antd.min.css";
 import "./i18n/configs"
 import { Provider } from "react-redux";
-import store from "./redux/store";
+import rootStore from "./redux/store";
+import { PersistGate } from 'redux-persist/integration/react';
 // import reportWebVitals from './reportWebVitals';
 
 
@@ -16,8 +17,10 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
+    <Provider store={rootStore.store}>
+      <PersistGate persistor={rootStore.persistor}>
+        <App />
+      </PersistGate>
     </Provider>
   </React.StrictMode>
 );
