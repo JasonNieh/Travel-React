@@ -1,16 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './App.module.css';
 import { HomePage, RegisterPage, DetailPage, SignInPage, SearchPage } from './pages';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useSelector } from "./redux/hooks";
+import { useSelector, useAppDispatch } from "./redux/hooks";
 import { Navigate } from 'react-router-dom';
 import { ShoppingCart } from './pages';
+import { getShoppingCart } from './redux/shoppingCart/slice';
+
+
 const PrivateRoute = ({ children }) => {
-  const jwt = useSelector(s => s.user.token);
-  return jwt ? children : <Navigate to="/signin/" />
-}
+  const jwt = useSelector((s) => s.user.token);
+  return jwt ? children : <Navigate to="/signIn" />;
+};
 
 function App() {
+  const jwt = useSelector((s) => s.user.token);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (jwt) {
+      dispatch(getShoppingCart(jwt));
+    }
+  }, [jwt]);
+
   return (
     <div className={styles.App}>
       <BrowserRouter>
@@ -23,7 +35,7 @@ function App() {
             <Route path=":keywords" element={<SearchPage />} />
             <Route path="" element={<SearchPage />} />
           </Route>
-          <Route path="shoppingCart" element={
+          <Route path="/shoppingCart" element={
             <PrivateRoute>
               <ShoppingCart />
             </PrivateRoute>

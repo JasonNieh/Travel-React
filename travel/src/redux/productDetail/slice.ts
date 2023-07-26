@@ -3,14 +3,15 @@ import axios from "axios";
 interface ProductDetailState {
     loading: boolean;
     error: null | string;
-    product: any,
+    data: any,
 }
 
 const initialState: ProductDetailState = {
     loading: true,
     error: null,
-    product: null,
+    data: null,
 }
+
 export const getProductDetail = createAsyncThunk(
     "productDetail/getProductDetail",
     async (touristRouteId: string, thunkAPI) => {
@@ -32,7 +33,7 @@ export const productDetailSlice = createSlice({
         [getProductDetail.fulfilled.type]: (state, action) => {
             state.loading = false;
             state.error = null;
-            state.product = action.payload;
+            state.data = action.payload;
         },
         [getProductDetail.rejected.type]: (state, action: PayloadAction<string | null>) => {
             state.loading = false;

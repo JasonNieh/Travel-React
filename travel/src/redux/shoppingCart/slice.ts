@@ -14,7 +14,7 @@ const initialState: ShoppingCartState = {
 }
 
 export const getShoppingCart = createAsyncThunk(
-    "productDetail/getProductDetail",
+    "shoppingCart/getShoppingCart",
     async (jwt: string, thunkAPI) => {
         const { data } = await axios.get(`http://123.56.149.216:8080/api/shoppingCart`,
             {
@@ -27,7 +27,7 @@ export const getShoppingCart = createAsyncThunk(
 );
 
 export const addShoppingCartItem = createAsyncThunk(
-    "productDetail/getProductDetail",
+    "shoppingCart/addShoppingCartItem",
     async (parameters: { jwt: string; touristRouteId: string }, thunkAPI) => {
         const { data } = await axios.post(`http://123.56.149.216:8080/api/shoppingCart/items`,
             {
@@ -44,7 +44,7 @@ export const addShoppingCartItem = createAsyncThunk(
 );
 
 export const clearShoppingCartItem = createAsyncThunk(
-    "productDetail/getProductDetail",
+    "shoppingCart/clearShoppingCartItem",
     async (parameters: { jwt: string; itemId: number[] }, thunkAPI) => {
         return await axios.delete(`http://123.56.149.216:8080/api/shoppingCart/items/(${parameters.itemId.join(",")})`,
             {
@@ -57,7 +57,7 @@ export const clearShoppingCartItem = createAsyncThunk(
 );
 
 export const shoppingCartSlice = createSlice({
-    name: "productDetail",
+    name: "shoppingCart",
     initialState,
     reducers: {
 

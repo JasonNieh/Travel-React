@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import jwt_decode, { JwtPayload as DefaultJwtPayload } from "jwt-decode";
-import { UserSlice } from "../../redux/user/slice";
+import { userSlice } from "../../redux/user/slice";
 
 interface JwtPayload extends DefaultJwtPayload {
     username: string,
@@ -27,6 +27,7 @@ export const Header: React.FC = () => {
 
     const jwt = useSelector(s => s.user.token);
     const [username, setUsername] = useState<string>("");
+    const shoppingCartItem = useSelector(s => s.shoppingCart.items);
 
     useEffect(() => {
         if (jwt != null) {
@@ -43,7 +44,7 @@ export const Header: React.FC = () => {
         }
     }
     const onLogOut = () => {
-        dispatch(UserSlice.actions.logOut());
+        dispatch(userSlice.actions.logOut());
         navigate("/");
     }
     return (
@@ -67,16 +68,18 @@ export const Header: React.FC = () => {
                     </Dropdown.Button>
                     {jwt ? (
                         <Button.Group className={styles["button-group"]}>
-                            <span>{t("header.welcome")}
+                            <span
+                                style={{ marginRight: 8, marginBottom: 8 }}>
+                                {t("header.welcome")}
                                 <Typography.Text strong>{username}</Typography.Text>
                             </span>
-                            <Button onClick={() => navigate("./shoppingcart")}>{t("header.shoppingCart")}</Button>
+                            <Button onClick={() => navigate("/shoppingCart")}>{t("header.shoppingCart")}({shoppingCartItem.length})</Button>
                             <Button onClick={onLogOut}>{t("header.signOut")}</Button>
                         </Button.Group>
                     ) : (
                         <Button.Group className={styles['button-group']}>
-                            <Button onClick={() => navigate("./register")}>{t("header.register")}</Button>
-                            <Button onClick={() => navigate("./signin")}>{t("header.signin")}</Button>
+                            <Button onClick={() => navigate("/register")}>{t("header.register")}</Button>
+                            <Button onClick={() => navigate("/signin")}>{t("header.signin")}</Button>
                         </Button.Group>
                     )}
                 </div>
