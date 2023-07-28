@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styles from './App.module.css';
-import { HomePage, RegisterPage, DetailPage, SignInPage, SearchPage } from './pages';
+import { HomePage, RegisterPage, DetailPage, SignInPage, SearchPage, PlaceOrder } from './pages';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useSelector, useAppDispatch } from "./redux/hooks";
 import { Navigate } from 'react-router-dom';
@@ -39,8 +39,12 @@ function App() {
             <PrivateRoute>
               <ShoppingCart />
             </PrivateRoute>
-          }
-          />
+          } />
+          <Route path="/placeOrder" element={
+            <PrivateRoute>
+              <PlaceOrder />
+            </PrivateRoute>
+          } />
           <Route path="*" element={<h1>404 not found... what you are looking for doesn't exist</h1>} />
         </Routes>
       </BrowserRouter>
